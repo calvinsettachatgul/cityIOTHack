@@ -5,3 +5,6 @@
 #####  Calvin Settachatgul
 ##### Xian Ke
 
+### Intel Edison and Grove Starter Kit Plus IOT Edition
+
+### Cisco Spark
