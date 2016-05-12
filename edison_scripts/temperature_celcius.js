@@ -10,7 +10,8 @@ board.on("ready", function() {
                       controller: "GROVE"
                                 });
 
-            this.loop(2000, function() {
+            this.loop(1000, function() {
                         console.log("%d°C", Math.round(temp.celcius));
+
                           });
 });
