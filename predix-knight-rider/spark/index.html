@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Knight Rider: Spark</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+
+</head>
+<body>
+
+
+<script type="text/javascript">
+
+	var authToken = "ZjQ4Y2IzYmQtNTU1MS00ZTQwLTk3MzAtOGMyMzM2NjY1ODFlYjg5MmZlYWQtMjUz"
+	var commandString = window.location.search.substring(1);
+
+	if (commandString=="create-new-room") {
+		createNewRoom()
+		console.log("create-new-room completed")
+	}
+
+	function createNewRoom() {
+		var timeestamp = (new Date).toISOString().replace(/z|t/gi,' ').trim();
+		var roomTitle = "Knight Rider " + timeestamp
+
+	    $.ajax({
+	        url: "https://api.ciscospark.com/hydra/api/v1/rooms",
+	        dataType: "json",
+	        method: "POST",
+	        headers: {
+	            Authorization: "Bearer " + authToken
+	        },
+	        data: {
+	            title: roomTitle,
+	        }
+	    })
+	}
+
+
+	$(document).ready(function(){
+
+		$("#create-new-room").click(function() {
+			createNewRoom()
+	        alert("Room created!")
+	    })
+
+		$("#enter-new-room").click(function(){
+		    alert("Entered New Room!");
+		});
+
+	});
+
+
+
+</script>
+
+<ul>
+  <li><button id="create-new-room">Create New Spark Chat Room</button>
+  <li><button id="enter-new-room">Enter New Spark Chat Room</button>
+</ul>
+
+</body>
+</html>
