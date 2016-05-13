@@ -2,6 +2,8 @@ http = require('http');
 fs = require('fs');
 qs = require('querystring');
 var bodyParser = require('body-parser')
+var express = require('express');
+var app = express()
 
 server = http.createServer( function(req, res) {
 
@@ -17,7 +19,10 @@ server = http.createServer( function(req, res) {
         req.on('end', function () {
             console.log("Body: " + body);
             var post = qs.parse(body);
+            var response_string = post['data'];
             console.log(post['data']);
+
+
         });
 
 
@@ -26,7 +31,7 @@ server = http.createServer( function(req, res) {
 
         res.writeHead(200, {'Content-Type': 'text/html'});
         console.log("this is the response");
-        res.end("thats it!");
+        res.end("thats all");
     }
     else
     {
