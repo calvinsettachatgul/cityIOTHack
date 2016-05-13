@@ -1,0 +1,113 @@
+<html>
+<head>
+<title>Knight Rider: Spark</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../css/index.css">
+
+</head>
+<body background="black">
+
+
+<script type="text/javascript">
+
+	//var authToken = "ZjQ4Y2IzYmQtNTU1MS00ZTQwLTk3MzAtOGMyMzM2NjY1ODFlYjg5MmZlYWQtMjUz"
+
+	var authToken = "ZWU0ZDAyOWItNjIxMS00ODA4LWJhZGMtYjg3ZjIzNDRlODk4MmMwMjdmMjgtMTIy"
+	var commandString = window.location.search.substring(1);
+
+	//if (commandString=="create-new-room") {
+		createNewRoom()
+//	}
+
+	function createNewRoom() {
+		var timeestamp = (new Date).toISOString().replace(/z|t/gi,' ').trim();
+		var roomTitle = "Knight Rider " + timeestamp
+
+	    $.ajax({
+	        url: "https://api.ciscospark.com/hydra/api/v1/rooms",
+	        dataType: "json",
+	        method: "POST",
+	        headers: {
+	            Authorization: "Bearer " + authToken
+	        },
+	        data: {
+	            title: roomTitle,
+	        },
+	        complete: function (response, status) {
+		        console.log ("createNewRoom completed");
+		        //console.log (response)
+		        var roomId = JSON.parse(response.responseText).id
+		        console.log (" id: " + roomId);
+		        addUserToRoom(roomId);
+
+		    }
+	    })
+	}
+
+	function addUserToRoom(roomId) {
+	    $.ajax({
+	        url: "https://api.ciscospark.com/hydra/api/v1/memberships",
+	        dataType: "json",
+	        method: "POST",
+	        headers: {
+	            Authorization: "Bearer " + authToken
+	        },
+	        data: {
+	            roomId: roomId,
+	            personEmail: "key2xanadu+knight@gmail.com",
+	            isModerator: false
+	        },
+	        complete: function (response, status) {
+		        console.log ("addUserToRoom completed");
+		        console.log (response)
+		        sendMessageToRoom(roomId)
+
+
+		    }
+	    })
+	}
+
+	function sendMessageToRoom(roomId) {
+	    $.ajax({
+	        url: "https://api.ciscospark.com/hydra/api/v1/messages",
+	        dataType: "json",
+	        method: "POST",
+	        headers: {
+	            Authorization: "Bearer " + authToken
+	        },
+	        data: {
+	            roomId: roomId,
+	            file: "https://upload.wikimedia.org/wikipedia/en/3/31/Knightlogo.png",
+	            text: "Knight Rider is here! What's happening?"
+	        },
+	        complete: function (response, status) {
+		        console.log ("sendMessageToRoom completed");
+		        console.log (response)
+		        
+
+		    }
+	    })
+	}
+
+	$(document).ready(function(){
+
+		$("#create-new-room").click(function() {
+			createNewRoom()
+	    })
+
+
+	});
+
+
+
+</script>
+
+<br>
+<!--
+<button id="create-new-room">Create New Spark Chat Room</button>-->
+
+<center> Done! </center>
+
+</body>
+</html>
